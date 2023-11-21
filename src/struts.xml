@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+<include file="struts-default.xml"></include>
+<constant name="struts.locale" value="en_GB" />
+	<package name="default" extends="struts-default" >
+		
+		<!-- 定义了一个名为myFilter的拦截器 -->
+		<interceptors>
+			<interceptor name="myFilter" class="edu.ccut.computer.software.tool.MyFilter"/>
+		</interceptors>
+		
+		<!-- 全局跳转，凡名为login的都跳转到login.jsp -->
+		<global-results>
+			<result name="login" type="redirect">/login/index.jsp</result>
+		</global-results>
+		
+		<!-- 登录 -->
+		<action name="login" class="edu.ccut.computer.software.action.LoginAction">
+			<result name="success" type="redirect">/main.jsp</result>
+			<result name="error">/login/index.jsp</result>
+			<result name="input">/login/index.jsp</result>
+		</action>
+		<action name="exit" class="edu.ccut.computer.software.action.LoginAction" method="exit">
+			<result name="success"  type="redirect">/login/index.jsp</result>
+		</action>
+		<!-- <action name="updatePwdView" class="edu.ccut.computer.software.action.LoginAction" method="updatePwdView">
+			<result name="success"  type="redirect">/updatePwdView.jsp</result>
+		</action> -->
+		
+		<!-- 修改admin信息 -->
+		<action name="updatePwdView" class="edu.ccut.computer.software.action.LoginAction" method="updatePwdView">
+			<result name="success">/updatePwdView.jsp</result>
+		</action>
+		
+		<action name="updatePwd" class="edu.ccut.computer.software.action.LoginAction" method="updatePwd">
+			<result name="success" >/success.jsp</result>
+			<result name="error" >/error.jsp</result>
+		</action>
+		
+		
+		
+		<!-- 所有学生信息 -->
+		<action name="studentInfo" class="edu.ccut.computer.software.action.StudentAction">
+   			<result name="success">/student/student.jsp</result>
+   			<interceptor-ref name="defaultStack"></interceptor-ref>
+   			<interceptor-ref name="myFilter"/>
+   		</action>
+   		<!-- 进入添加学生界面 -->
+		<!-- <action name="addStudentView" class="edu.ccut.computer.software.action.StudentAction" method="addStudentView">
+			<result name="success">/addStudentInfo.jsp</result>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="myFilter"/>
+		</action> -->
+		<!-- 添加 -->
+		<action name="addStudent" class="edu.ccut.computer.software.action.StudentAction" method="addStudent">
+			<result name="success" type="redirectAction">studentInfo.action</result>
+			<result name="error">/student/existStudent.jsp</result>
+		</action>
+		<!-- 删除学生 -->
+		<action name="deleteStudent" class="edu.ccut.computer.software.action.StudentAction" method="deleteStudent">
+			<result name="success" type="redirectAction">studentInfo.action</result>
+			<result name="error" >/student/fail.jsp</result>
+		</action>
+		<!-- 进入修改学生界面 -->
+		<action name="updateStudentView" class="edu.ccut.computer.software.action.StudentAction" method="updateStudentView">
+			<result name="success">/student/updateStudent.jsp</result>
+		</action>
+		<!-- 修改学生信息 -->
+		<action name="updateStudent" class="edu.ccut.computer.software.action.StudentAction" method="updateStudent">
+			<result name="success" type="redirectAction">studentInfo.action</result>
+		</action>
+		<!-- 某个学生详细信息 -->
+		<action name="findStudent" class="edu.ccut.computer.software.action.StudentAction" method="findStudent">
+			<result name="success">/student/findStudent.jsp</result>
+		</action>
+   		<action name="getImage" class="edu.ccut.computer.software.action.StudentAction" method="getImage">
+   		</action>
+   		
+   		
+   		
+   		<!-- 进入添加课程信息页面 -->
+   		<!-- <action name="addCourseView">
+   			<result>/addCourseInfo.jsp</result>
+   			<interceptor-ref name="defaultStack"></interceptor-ref>
+   			<interceptor-ref name="myFilter"></interceptor-ref>
+   		</action> -->
+	   	<!-- 所有课程信息 -->
+		<action name="courseInfo" class="edu.ccut.computer.software.action.CourseAction" method="courseInfo">
+			<result name="success">/course/course.jsp</result>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="myFilter"/>
+		</action>
+		<!-- 查询某门课程 -->
+		<action name="findCourse" class="edu.ccut.computer.software.action.CourseAction" method="findCourse">
+			<result name="success">/course/findCourse.jsp</result>
+			<result name="error">/noneCourse.jsp</result>
+		</action>
+		<!-- 删除课程 -->
+		<action name="deleteCourse" class="edu.ccut.computer.software.action.CourseAction" method="deleteCourse">
+			<result name="success" type="redirectAction">/courseInfo.action</result>
+			<result name="error">/fail.jsp</result>
+		</action>
+		<!-- 添加课程 -->
+		<action name="addCourse" class="edu.ccut.computer.software.action.CourseAction" method="addCourse">
+			<result name="success" type="redirectAction">/courseInfo.action</result>
+			<result name="error">/fail.jsp</result>
+		</action>
+		<!-- 进入修改课程界面 -->
+		<action name="updateCourseView" class="edu.ccut.computer.software.action.CourseAction" method="updateCourseView">
+			<result name="success">/course/updateCourse.jsp</result>
+		</action>
+		<!-- 修改课程信息 -->
+		<action name="updateCourse" class="edu.ccut.computer.software.action.CourseAction" method="updateCourse">
+			<result name="success" type="redirectAction">/courseInfo.action</result>
+			<result name="error">/course/updateCourse.jsp</result>
+		</action>
+		
+		
+		
+		
+		<!-- 进入添加或修改学生成绩界面 -->
+		<!-- <action name="addScoreView" class="edu.ccut.computer.software.action.ScoreAction" method="execute">
+   			<result name="success">/score/score.jsp</result>
+   			<interceptor-ref name="defaultStack"></interceptor-ref>
+   			<interceptor-ref name="myFilter"/>
+   		</action> -->
+   		
+   		<!-- 所有学生成绩 -->
+		<action name="scoreInfo" class="edu.ccut.computer.software.action.ScoreAction" method="scoreInfo">
+			<result name="success" >/score/score.jsp</result>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="myFilter"/>
+		</action>
+   		<!-- 添加或修改学生成绩 -->
+   		<action name="addorupdateScore" class="edu.ccut.computer.software.action.ScoreAction" method="addorupdateStudentscore">
+   			<result name="success" type="redirectAction" >/scoreInfo.action</result>
+   		</action>
+   		<!-- 某学生课程成绩 -->
+		<action name="findScore" class="edu.ccut.computer.software.action.ScoreAction" method="findStudentscore">
+			<result name="success" >/score/oneScore.jsp</result>
+			<result name="error">/noneScore.jsp</result>
+		</action>
+		<!-- 删除某学生的某门成绩 -->
+		<action name="deleteOneScore" class="edu.ccut.computer.software.action.ScoreAction" method="deleteOneStudentscore">
+			<result name="success" type="redirectAction" >/scoreInfo.action</result>
+		</action>
+		
+		
+		
+	</package>
+</struts>

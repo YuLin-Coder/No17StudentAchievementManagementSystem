@@ -1,0 +1,33 @@
+<?namel version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="edu.ccut.computer.software.model.Student" table="student" >
+        <id name="studentId" type="java.lang.String">
+            <column name="studentId" length="6" />
+            <generator class="assigned" />
+        </id>
+        <property name="name" type="java.lang.String">
+            <column name="name" length="50" />
+        </property>
+        <property name="sex" type="java.lang.Byte">
+            <column name="sex" />
+        </property>
+        <property name="birthDate" type="java.util.Date">
+            <column name="birthDate" length="23" />
+        </property>
+        <property name="totalCredits" type="java.lang.Integer">
+            <column name="totalCredits" />
+        </property>
+        <property name="other" type="java.lang.String">
+            <column name="other" length="500" />
+        </property>
+        <property name="photo">
+            <column name="photo" />
+        </property>
+                <many-to-one name="major" class="edu.ccut.computer.software.model.Major" fetch="select" lazy="false">
+            <column name="majorId" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

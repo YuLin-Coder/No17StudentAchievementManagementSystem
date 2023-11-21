@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	
+	<bean id="datasource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName"
+			value="com.mysql.jdbc.Driver">
+		</property>
+		<property name="url"
+			value="jdbc:mysql://localhost:3306/no17_ssh_system?useUnicode=true&amp;characterEncoding=utf8">
+		</property>
+		<property name="username" value="root"></property>
+		<property name="password" value="123456"></property>
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="datasource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLInnoDBDialect
+				</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>edu/ccut/computer/software/model/Login.hbm.xml</value>
+				<value>edu/ccut/computer/software/model/Student.hbm.xml</value>
+				<value>edu/ccut/computer/software/model/Course.hbm.xml</value>
+				<value>edu/ccut/computer/software/model/Major.hbm.xml</value>
+				<value>edu/ccut/computer/software/model/Score.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="transactionManager"
+         class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<!-- HibernateTransactionManager   bean需要依赖注入一个SessionFactory bean的引用-->
+            <property name="sessionFactory">
+            	<ref local="sessionFactory"/>
+            </property>
+    </bean>
+    <!--   配置事务拦截器-->
+    <bean id="transactionInterceptor"
+        class="org.springframework.transaction.interceptor.TransactionInterceptor">
+        <!--   事务拦截器bean需要依赖注入一个事务管理器 -->
+        <property name="transactionManager" ref="transactionManager"/>
+        <property name="transactionAttributes">
+            <!-- 下面定义事务传播属性-->
+            <props>
+                <prop key="delete*">PROPAGATION_REQUIRED</prop>
+                <prop key="*">PROPAGATION_REQUIRED</prop>
+            </props>
+        </property>
+    </bean>
+	<!-- 定义BeanNameAutoProxyCreator,该bean无需被引用，因此没有id属性,这个bean根据事务拦截器为目标bean自动创建事务代理-->
+    <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+          <!-- 指定对满足哪些bean name的bean自动生成业务代理  -->
+ 		<property name="beanNames">
+            <!--   下面是所有需要自动创建事务代理的bean-->
+            <list>
+                <value>studentService</value>
+                <value>courseService</value>
+                <value>scoreService</value>
+                <value>majorService</value>
+            </list>
+            <!--   此处可增加其他需要自动创建事务代理的bean-->
+        </property>
+        <!--   下面定义BeanNameAutoProxyCreator所需的事务拦截器-->
+        <property name="interceptorNames">
+            <list>
+                <value>transactionInterceptor</value> 
+                 <!-- 此处可增加其他新的Interceptor -->
+            </list>
+        </property>
+     </bean>
+	<bean id="loginDao" class="edu.ccut.computer.software.dao.imp.LoginDaoImp">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="studentDao" class="edu.ccut.computer.software.dao.imp.StudentDaoImp">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+	<bean id="courseDao" class="edu.ccut.computer.software.dao.imp.CourseDaoImp">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+	<bean id="majorDao" class="edu.ccut.computer.software.dao.imp.MajorDaoImp">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+	<bean id="scoreDao" class="edu.ccut.computer.software.dao.imp.ScoreDaoImp">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+	<bean id="loginService" class="edu.ccut.computer.software.service.imp.LoginServiceManage">
+		<property name="loginDao">
+			<ref bean="loginDao"/>
+		</property>
+	</bean>
+	<bean id="studentService" class="edu.ccut.computer.software.service.imp.StudentServiceManage">
+		<property name="studentDao">
+			<ref bean="studentDao"/>
+		</property>
+		<property name="scoreDao">
+			<ref bean="scoreDao"/>
+		</property>
+	</bean>
+	<bean id="majorService" class="edu.ccut.computer.software.service.imp.MajorServiceManage">
+		<property name="majorDao">
+			<ref bean="majorDao"/>
+		</property>
+	</bean>
+	<bean id="courseService" class="edu.ccut.computer.software.service.imp.CourseServiceManage">
+		<property name="courseDao">
+			<ref bean="courseDao"/>
+		</property>
+		<property name="scoreDao">
+			<ref bean="scoreDao"/>
+		</property>
+	</bean>
+	<bean id="scoreService" class="edu.ccut.computer.software.service.imp.ScoreServiceManage">
+		<property name="scoreDao">
+			<ref bean="scoreDao"/>
+		</property>
+	</bean>
+	<bean id="loginAction" class="edu.ccut.computer.software.action.LoginAction">
+		<property name="loginService">
+			<ref bean="loginService"/>
+		</property>
+	</bean>
+	<bean id="studentAction" class="edu.ccut.computer.software.action.StudentAction">
+		<property name="studentService">
+			<ref bean="studentService"/>
+		</property>
+		<property name="majorService">
+			<ref bean="majorService"/>
+		</property>
+	</bean>
+	<bean id="courseAction" class="edu.ccut.computer.software.action.CourseAction">
+		<property name="courseService">
+			<ref bean="courseService"/>
+		</property>
+	</bean>
+	<bean id="scoreAction" class="edu.ccut.computer.software.action.ScoreAction">
+		<property name="studentService">
+			<ref bean="studentService"/>
+		</property>
+		<property name="courseService">
+			<ref bean="courseService"/>
+		</property>
+		<property name="scoreService">
+			<ref bean="scoreService"/>
+		</property>
+	</bean>
+</beans>

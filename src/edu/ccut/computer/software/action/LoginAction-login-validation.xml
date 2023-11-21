@@ -1,0 +1,17 @@
+<!DOCTYPE validators PUBLIC
+		 "-//OpenSymphony Group//XWork Validator 1.0//EN" 
+		 "http://www.opensymphony.com/xwork/xwork-validator-1.0.dtd">
+<validators>  
+    <field name="login.username">
+    	<field-validator type="requiredstring">
+    		<param name="trim">true</param>
+    		<message>学号是必须的！</message>
+    	</field-validator>
+    </field>
+    <field name="login.password">  
+       <field-validator type="requiredstring">
+    		<param name="trim">true</param>
+    		<message>口令是必须的！</message>
+    	</field-validator>
+    </field>
+</validators>  
