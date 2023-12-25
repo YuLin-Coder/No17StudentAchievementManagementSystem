@@ -42,7 +42,7 @@ public class StudentAction extends ActionSupport {
 		System.out.println(student.getBirthDate());
 		stu.setTotalCredits(student.getTotalCredits());
 		stu.setOther(student.getOther());
-		stu.setMajor(majorService.getOneMajor(student.getMajor().getId()));
+		stu.setMajor(majorService.getOneMajor(Integer.parseInt(student.getMajorId())));
 		if (this.getPhotofile() != null) {
 			FileInputStream fis = new FileInputStream(this.getPhotofile());
 			byte[] buffer = new byte[fis.available()];

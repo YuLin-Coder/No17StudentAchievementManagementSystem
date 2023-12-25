@@ -120,7 +120,7 @@
 																<label class="am-u-sm-3 am-form-label">
 									学号</label>
 																<div class="am-u-sm-9">
-																	<input type="text"  required name="studentId">
+																	<input type="text"  required name="student.studentId">
 																</div>
 															</div>
 															<div class="am-form-group">
@@ -128,7 +128,7 @@
 															
 									姓名</label>
 																<div class="am-u-sm-9">
-																	<input type="text" required name="name">
+																	<input type="text" required name="student.name">
 																</div>
 															</div>
 															<div class="am-form-group">
@@ -136,7 +136,7 @@
 															
 									性别</label>
 																<div class="am-u-sm-9">
-																	<s:radio name="sex" value="1" list="#{1:'男',0:'女'}"/>
+																	<s:radio name="student.sex" value="1" list="#{1:'男',0:'女'}"/>
 																</div>
 															</div>
 															<div class="am-form-group">
@@ -144,7 +144,7 @@
 															
 									专业</label>
 																<div class="student.major.id">
-																	<s:select  name="major.id" list="list" listKey="id" listValue="majorName"
+																	<s:select  name="student.majorId" list="list" listKey="id" listValue="majorName"
 																		 headerKey="0" headerValue="--请选择专业--" ></s:select>
 																</div>
 															</div>
@@ -154,7 +154,7 @@
 									出生时间</label>
 																<div class="am-u-sm-9">
 																	<!-- 调用JS写的时间控件，非常方便时间的选择，而且输入框设为只读，防止输入错误的格式 -->
-																	<s:textfield name="birthDate"  onclick="calendar()" ></s:textfield>
+																	<s:textfield name="student.birthDate"  value="1999-01-01" onclick="calendar()" ></s:textfield>
 																</div>
 															</div>
 															<div class="am-form-group">
@@ -162,7 +162,7 @@
 															
 									总学分</label>
 																<div class="am-u-sm-9">
-																	<s:textfield name="totalCredits"></s:textfield>
+																	<s:textfield name="student.totalCredits"></s:textfield>
 																</div>
 															</div>
 															
@@ -171,7 +171,7 @@
 																<label for="user-intro" class="am-u-sm-3 am-form-label">
 									备注</label>
 																<div class="am-u-sm-9">
-																	<textarea class="" rows="5"  name="other" placeholder="输入备注"></textarea>
+																	<textarea class="" rows="5"  name="student.other" placeholder="输入备注"></textarea>
 																	<small>250字以内...</small>
 																</div>
 															</div>
@@ -201,6 +201,7 @@
 					<script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
 					<script src="js/plugs/Jqueryplugs.js" type="text/javascript"></script>
 					<script src="js/_layout.js"></script>
+					<script src="js/calendar.js"></script>
 					<script src="js/plugs/jquery.SuperSlide.source.js"></script>
 					<script>
 						var num = 1;

@@ -72,7 +72,7 @@
 															
 									专业</label>
 																<div class="am-u-sm-9">
-																	<select name="student.major">
+																	<select name="student.majorId">
 																		<s:iterator value="#request.majors" id="major">
 																			<option value="<s:property value="#major"/>"><s:property value="#major.majorName"/></option>
 																		</s:iterator>
@@ -106,7 +106,7 @@
 															</div>
 															<div class="am-form-group">
 																<div class="am-u-sm-9 am-u-sm-push-3">
-																	<input type="submit" class="am-btn am-btn-success" value="添加" />
+																	<input type="submit" class="am-btn am-btn-success" value="修改" />
 																	<input type="button" value="返回" onclick="javascript:history.back();"/>
 																</div>
 															</div>

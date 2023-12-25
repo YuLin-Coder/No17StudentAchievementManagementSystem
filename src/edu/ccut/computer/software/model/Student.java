@@ -10,6 +10,7 @@ import java.util.Date;
 public class Student implements java.io.Serializable {
 	private String studentId;
 	private Major major;
+	private String majorId;
 	private String name;
 	private Byte sex;
 	private Date birthDate;
@@ -33,6 +34,14 @@ public class Student implements java.io.Serializable {
 
 	public Date getBirthDate() {
 		return birthDate;
+	}
+
+	public String getMajorId() {
+		return majorId;
+	}
+
+	public void setMajorId(String majorId) {
+		this.majorId = majorId;
 	}
 
 	public Major getMajor() {
